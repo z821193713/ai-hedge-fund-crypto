@@ -7,6 +7,7 @@ from colorama import Fore, Style
 from utils import Interval, QUANTITY_DECIMALS, format_backtest_row, print_backtest_results
 from agent import Agent
 from utils.binance_data_provider import BinanceDataProvider
+from llm import clear_llm_cache
 import matplotlib.pyplot as plt
 
 
@@ -284,6 +285,9 @@ class Backtester:
         print("Data pre-fetch complete.")
 
     def run_backtest(self):
+        # Clear LLM cache at the start of each backtest
+        clear_llm_cache()
+        
         # Pre-fetch all data at the start
         self.prefetch_data()
 

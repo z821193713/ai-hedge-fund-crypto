@@ -10,7 +10,9 @@ load_dotenv()
 
 
 if __name__ == "__main__":
-
+    # 启用详细日志
+    import logging
+    logging.basicConfig(level=logging.DEBUG)
     backtester = Backtester(
         primary_interval=settings.primary_interval,
         intervals=settings.signals.intervals,

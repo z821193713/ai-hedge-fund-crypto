@@ -1,5 +1,7 @@
 import os
-from typing import Optional
+import hashlib
+import json
+from typing import Optional, Dict, Any
 from functools import lru_cache
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
@@ -9,6 +11,39 @@ from langchain_ollama import ChatOllama
 from langchain.output_parsers.json import SimpleJsonOutputParser
 
 json_parser = SimpleJsonOutputParser()
+
+# LLM响应缓存
+_llm_response_cache: Dict[str, Any] = {}
+
+def get_cache_key(prompt_data: Dict[str, Any]) -> str:
+    """为LLM输入生成缓存键"""
+    # 对输入数据进行哈希处理，确保相同输入得到相同的键
+    serialized_data = json.dumps(prompt_data, sort_keys=True)
+    return hashlib.md5(serialized_data.encode()).hexdigest()
+
+def cached_llm_invoke(llm, chain, input_data: Dict[str, Any], use_cache: bool = True) -> Any:
+    """带缓存的LLM调用"""
+    if not use_cache:
+        return chain.invoke(input_data)
+    
+    cache_key = get_cache_key(input_data)
+    
+    if cache_key in _llm_response_cache:
+        print(f"🔄 Using cached LLM response for similar input")
+        return _llm_response_cache[cache_key]
+    
+    # 调用LLM并缓存结果
+    result = chain.invoke(input_data)
+    _llm_response_cache[cache_key] = result
+    print(f"💾 Cached new LLM response")
+    
+    return result
+
+def clear_llm_cache():
+    """清除LLM响应缓存"""
+    global _llm_response_cache
+    _llm_response_cache.clear()
+    print("🧹 LLM response cache cleared")
 
 
 @lru_cache(maxsize=None)
@@ -85,5 +120,5 @@ def get_llm(provider: str, model: str, base_url: Optional[str] = None):
         raise ValueError(f"Unsupported provider: {provider}")
 
 
-__all__ = ["json_parser", "get_llm"]
+__all__ = ["json_parser", "get_llm", "cached_llm_invoke", "clear_llm_cache"]
 
