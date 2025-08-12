@@ -15,7 +15,7 @@ json_parser = SimpleJsonOutputParser()
 def get_llm(provider: str, model: str, base_url: Optional[str] = None):
     """
     Return a cached LLM instance based on provider and model.
-    Supported providers: openai, groq, openrouter
+    Supported providers: openai, groq, openrouter, dashscope
     """
     timeout = 120  # for this in ollama can be very slow, so set it to a bigger value.
     max_retries = 3
@@ -23,6 +23,16 @@ def get_llm(provider: str, model: str, base_url: Optional[str] = None):
         base_url = base_url or "https://api.openai.com/v1"
         return ChatOpenAI(
             api_key=os.getenv("OPENAI_API_KEY"),
+            base_url=base_url,
+            model=model,
+            timeout=timeout,
+            max_retries=max_retries,
+        )
+    elif provider == "dashscope":
+        # 百炼（阿里云DashScope）使用OpenAI兼容模式
+        base_url = base_url or "https://dashscope.aliyuncs.com/compatible-mode/v1"
+        return ChatOpenAI(
+            api_key=os.getenv("DASHSCOPE_API_KEY"),
             base_url=base_url,
             model=model,
             timeout=timeout,
