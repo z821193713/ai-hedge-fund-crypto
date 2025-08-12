@@ -24,9 +24,9 @@
 以下是回测样例结果，展示了精心设计的交易策略在此框架中能够生成高质量信号的能力。系统性能由策略质量决定，
 框架提供高效实现、基于LLM的决策优化和多时间框架分析：
 
-![回测结果](imgs/backtest1.png)
-![回测结果](imgs/backtest2.png)
-![投资组合表现](imgs/backtest3.png)
+![回测结果](../imgs/backtest1.png)
+![回测结果](../imgs/backtest2.png)
+![投资组合表现](../imgs/backtest3.png)
 
 ## 架构
 
@@ -46,7 +46,7 @@
 关键创新在于数据节点和策略节点可通过`config.yaml`文件完全配置，
 允许在不更改核心架构的情况下添加、删除或修改这些节点。
 
-![图表示例1](imgs/graph1.png)
+![图表示例1](../imgs/graph1.png)
 
 ### 可配置时间框架
 
@@ -60,7 +60,7 @@ signals:
 系统将为每个时间框架动态创建独立的数据处理节点，使策略能够同时分析多个时间周期的市场行为。
 这种多时间框架方法通过捕捉短期和长期市场趋势提供更稳健的信号。
 
-![图表示例2](imgs/graph2.png)
+![图表示例2](../imgs/graph2.png)
 
 ### 可配置策略
 
@@ -81,7 +81,7 @@ signals:
 这种模块化方法使您可以轻松尝试不同的策略组合，无需重写任何代码。
 您还可以创建自己的自定义策略模块并将其添加到配置中。
 
-![图表示例3](imgs/graph3.png)
+![图表示例3](../imgs/graph3.png)
 
 ### 数据流架构
 
@@ -244,9 +244,9 @@ uv run main.py
 
 回测生成详细的性能指标和可视化：
 
-![回测结果](imgs/backtest1.png)
-![回测结果](imgs/backtest2.png)
-![投资组合表现](imgs/backtest3.png)
+![回测结果](../imgs/backtest1.png)
+![回测结果](../imgs/backtest2.png)
+![投资组合表现](../imgs/backtest3.png)
 
 ### 运行实时模式
 
@@ -515,7 +515,7 @@ ai-hedge-fund-crypto/
 
 ## 许可证
 
-本项目基于MIT许可证。有关更多信息，请参阅[LICENSE](LICENSE)文件。
+本项目基于MIT许可证。有关更多信息，请参阅[LICENSE](../LICENSE)文件。
 
 ## 免责声明
 
